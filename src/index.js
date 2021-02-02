@@ -1,17 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import "@atlaskit/css-reset";
+import { DragDropContext } from "react-beautiful-dnd";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+import initialData from "./initial-data";
+import Column from "./Column";
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const App = () => {
+  // const onDragEnd = (result) => {
+  //   return;
+  // };
+
+  return (
+    <DragDropContext onDragEnd={() => {}}>
+      {initialData.columnOrder.map((columnId) => {
+        const column = initialData.colums[columnId];
+        const tasks = column.taskIds.map((taskId) => initialData.tasks[taskId]);
+
+        return <Column key={column.id} column={column} tasks={tasks} />;
+      })}
+    </DragDropContext>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById("root"));
